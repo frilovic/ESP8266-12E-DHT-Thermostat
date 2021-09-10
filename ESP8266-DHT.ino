@@ -501,18 +501,10 @@ void handle_root() {
 }
 
 ///////////////////////////////////////
-// first funtion to run at power up //
+// funtion to connect wifi          //
 //////////////////////////////////////
-
-void setup(void)
-{
-  // You can open the Arduino IDE Serial Monitor window to see what the code is doing
-  Serial.begin(115200);  // Serial connection from ESP-01 via 3.3v console cable
-
-  pinMode(RELAYPIN, OUTPUT);
-  digitalWrite(RELAYPIN, LOW);
-  // Connect to WiFi network
-  WiFi.begin(ssid, password);
+void ConetWifi (){
+    WiFi.begin(ssid, password);
   WiFi.config(IPAddress(192, 168, 1, 201), IPAddress(192, 168, 1, 1), IPAddress(255, 255, 255, 0));
 
   Serial.print("\n\r \n\rWorking to connect");
@@ -529,6 +521,27 @@ void setup(void)
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 
+
+}
+
+
+
+///////////////////////////////////////
+// first funtion to run at power up //
+//////////////////////////////////////
+
+void setup(void)
+{
+  // You can open the Arduino IDE Serial Monitor window to see what the code is doing
+  Serial.begin(115200);  // Serial connection from ESP-01 via 3.3v console cable
+
+  pinMode(RELAYPIN, OUTPUT);
+  digitalWrite(RELAYPIN, LOW);
+   
+  
+  // Connect to WiFi network
+  ConetWifi ();
+   
   dht.begin();           // initialize temperature sensor
   delay(10);
 
@@ -636,7 +649,10 @@ void setup(void)
 
 void loop(void)
 {
-
+if (WiFi.status() != WL_CONNECTED){
+   ConetWifi ();
+  }
+      
   // check timer to see if it's time to update the data file with another DHT reading
   unsigned long currentMillis = millis();
 
