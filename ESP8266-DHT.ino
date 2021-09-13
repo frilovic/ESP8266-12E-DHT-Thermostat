@@ -104,7 +104,7 @@ void removeFileLine(String fi)
   //Lets read line by line from the file
   for (int i = 0; i < maxFileData; i++) {
 
-    String str = original.readStringUntil('\n'); // read a line
+    String str = original.readStringUntil(' '); // read a line
     if (i > 0) { // skip writing first line to the temp file
 
       temp.println(str);
@@ -152,7 +152,7 @@ void updateDataFile()
     Serial.println("====== Writing to data file =========");
 
     f.print(relayState); f.print(":");
-    f.print(temp_f); f.print( ","); f.println(humidity);
+    f.print(temp_f); f.print( ","); f.print(humidity);f.println( " ");
 
     Serial.println("Data file updated");
     f.close();
